@@ -1,3 +1,12 @@
+/* GROUP 3 (MATH FOR COMPUTER GRAPHICS)
+- RAZIQ FITRI BIN ZAIFULNIZAM (A22EC0265)
+- MUHAMMAD MUADZ BIN JAMAIN (B22EC0032)
+- NUR ALIA MAISARAH BINTI WAN ASMIRA (A22EC0242)
+- YAP YEE JIA (A22EC0119)
+*/
+
+////////////////////////////////////////////////////////////////
+
 #include<stdio.h> 
 #include<math.h> 
 #include <graphics.h>
