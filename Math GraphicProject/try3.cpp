@@ -138,7 +138,7 @@ void interpolation(float x1[], float y1[], float x2[], float y2[], int n)
 	}while(t<1);
 }
 
-printMsg()
+void printMsg()
 {	char text1[][1] ={' ','S','T','A','Y',' ','A','T',' ','H','O','M','E',' ','A','N','D',' ','S','T','A','Y',' ','S','A','F','E','!',' '};
 
 	int j=0;
