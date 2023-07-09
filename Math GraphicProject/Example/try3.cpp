@@ -1,12 +1,3 @@
-/* GROUP 3 (MATH FOR COMPUTER GRAPHICS) raziq
-- RAZIQ FITRI BIN ZAIFULNIZAM (A22EC0265)
-- MUHAMMAD MUADZ BIN JAMAIN (B22EC0032)
-- NUR ALIA MAISARAH BINTI WAN ASMIRA (A22EC0242)
-- YAP YEE JIA (A22EC0119)
-*/
-
-////////////////////////////////////////////////////////////////
-
 #include<stdio.h> 
 #include<math.h> 
 #include <graphics.h>
@@ -138,7 +129,7 @@ void interpolation(float x1[], float y1[], float x2[], float y2[], int n)
 	}while(t<1);
 }
 
-void printMsg()
+printMsg()
 {	char text1[][1] ={' ','S','T','A','Y',' ','A','T',' ','H','O','M','E',' ','A','N','D',' ','S','T','A','Y',' ','S','A','F','E','!',' '};
 
 	int j=0;

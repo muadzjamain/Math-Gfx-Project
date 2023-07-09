@@ -2,6 +2,24 @@
 #include <conio.h>
 #include <graphics.h>
 #include <dos.h>
+#include <cmath>
+
+void rotation(float a[][2], int n, int x_pivot,int y_pivot, int angle) 
+{ 
+
+    for(int i=0;i<n;i++)
+    { 
+        // Shifting the pivot point to the origin and the given points accordingly 
+        int x_shifted = a[i][0] - x_pivot; 
+        int y_shifted = a[i][1] - y_pivot; 
+  
+        // Calculating the rotated point co-ordinates  and shifting it back
+        a[i][0] = x_pivot + (x_shifted*cos(angle)- y_shifted*sin(angle));  //cosA*x + -sinA *y         
+        a[i][1] = y_pivot + (x_shifted*sin(angle)+ y_shifted*cos(angle));  //sinA*x + cosA*y
+                           
+	}	
+    line(a[0][0], a[0][1],a[1][0], a[1][1]);
+}
 
 bool isMouseClicked(int mx, int my, int x[], int y[])
 {
@@ -60,6 +78,28 @@ void shearing(int c[], int d[], float shx, int n)
     }
 }
 
+void interpolation(float x1[], float y1[], float x2[], float y2[], int n)
+{
+    float x,y;
+	float no_post=100;
+	
+	float m=no_post - 1; 
+	float step=1/m;
+	float t=0;
+    while (t < 1)
+    {
+        for (int i = 0; i < n; i++)
+        {
+
+            x = (x1[i] * ((1 + cos(2 * t)) / 2)) + (x2[i] * ((1 - cos(2 * t)) / 2));
+            y = (y1[i] * ((1 + cos(2 * t)) / 2)) + (y2[i] * ((1 - cos(2 * t)) / 2));
+
+            t += step;
+            putpixel(x, y, YELLOW);
+        }
+    }
+}
+
 void moving() // Moving Function (Translation)
 {
     int h[] = {150};
@@ -85,6 +125,16 @@ void moving() // Moving Function (Translation)
         translation(u, t, 1, 0, 2);
         line(u[0], t[0], u[1], t[1]); // leg
         // line(150+i, 690, 220+i, 750); //leg
+
+        float arr0[][2]= {{150 + i, 530},{50 + i, 580}};
+        setlinestyle(0, 0, 3);
+        line(150+i, 530, 50+i, 580); //arm
+        rotation (arr0, 2, 150 + i, 530, 180);
+
+        float arr1[][2]= {{150 + i, 690},{80 + i, 750}};
+        setlinestyle(0, 0, 3);
+        line(150+i, 690, 80+i, 750); //leg
+        rotation (arr1, 2, 150 + i, 690, 350);
 
         // seller
         circle(800, 470, 40);     // head
@@ -154,6 +204,10 @@ void moving() // Moving Function (Translation)
 
         // menu
         setcolor(WHITE);
+        settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+        char word6[] = {'R', 'M', '5', ' ', 'O', 'n', 'l', 'y', '!', '!', '\0'};
+        outtextxy(925, 635, word6);
+        outtextxy(1055, 635, word6);
         settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
         char word4[] = {'S', 'E', 'T', ' ', 'A', '\0'};
         char word5[] = {'S', 'E', 'T', ' ', 'B', '\0'};
@@ -234,6 +288,20 @@ int main()
         line(150 + 300, 690, 80 + 300, 750); // leg
         // line(150+300, 690, 220+300, 750); //leg
 
+        float arr0[][2]= {{150 + 300, 530},{50 + 300, 580}};
+        setlinestyle(0, 0, 3);
+        line(150 + 300, 530, 50 + 300, 580); //arm
+        rotation (arr0, 2, 150 + 300, 530, 180);
+        //line(150+300, 530, 250+300, 580); //arm
+
+        float arr1[][2]= {{150 + 300, 690},{80 + 300, 750}};
+        setlinestyle(0, 0, 3);
+        line(150+300, 690, 80+300, 750); //leg
+        rotation (arr1, 2, 150 + 300, 690, 350);
+        //line(150+300, 690, 220+300, 750); //leg
+       
+        
+
         // seller
         circle(800, 470, 40);     // head
         line(800, 510, 800, 570); // body
@@ -308,6 +376,10 @@ int main()
 
         // menu
         setcolor(WHITE);
+        settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+        char word6[] = {'R', 'M', '5', ' ', 'O', 'n', 'l', 'y', '!', '!', '\0'};
+        outtextxy(925, 635, word6);
+        outtextxy(1055, 635, word6);
         settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
         char word4[] = {'S', 'E', 'T', ' ', 'A', '\0'};
         char word5[] = {'S', 'E', 'T', ' ', 'B', '\0'};
@@ -380,10 +452,10 @@ int main()
                 settextstyle(DEFAULT_FONT, HORIZ_DIR, 6);
                 outtextxy(460, 215, word4);
                 outtextxy(855, 215, word5);
-                settextstyle(5, HORIZ_DIR, 5);
+                settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
                 char word6[] = {'R', 'M', '5', ' ', 'O', 'n', 'l', 'y', '!', '!', '\0'};
-                outtextxy(500, 300, word6);
-                outtextxy(880, 300, word6);
+                outtextxy(480, 300, word6);
+                outtextxy(860, 300, word6);
                 setcolor(WHITE);
                 rectangle(x[0], y[0], x[1], y[1]);
                 line(775, 200, 775, 620);
@@ -436,11 +508,18 @@ int main()
                 setcolor(WHITE);
                 circle(1060, 485, 24);
 
+                 // form dotline using interpolation & putpixel()
+                float X1[] = {450, 350, 350, 350, 1190, 1180, 1160,1100};
+                float Y1[] = {170, 230, 570, 660, 670, 580, 260,160};
+                float X2[] = {350, 100, 220, 190, 1300, 1490, 1350,1380};
+                float Y2[] = {80, 280, 430, 730, 790, 450, 390,10};
+
+                interpolation(X1, Y1, X2, Y2, 8);
                 break;
             }
         }
     }
 
-    // Wait for user input before closing the graphics window
+    // Wait for user input before closing the graphics window 
     getch();
 }
